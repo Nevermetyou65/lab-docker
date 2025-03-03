@@ -1,4 +1,5 @@
-FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
+# FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
+FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 
 RUN ["/bin/bash", "-c", "echo I am using bash"]
 SHELL ["/bin/bash", "-c"]
@@ -182,7 +183,14 @@ RUN git clone https://github.com/nvidia/apex
 WORKDIR ./apex
 RUN pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
 # RUN git clone https://github.com/microsoft/DeepSpeed.git ${STAGE_DIR}/DeepSpeed
-RUN pip install triton==2.1.0
+
+
+# RUN pip install triton==2.1.0
+# Remove specific version of triton
+RUN pip install triton
+
+
+
 # RUN cd ${STAGE_DIR}/DeepSpeed && \
 #     git checkout . && \
 #     git checkout master && \
@@ -196,4 +204,4 @@ RUN echo I am using bash, which is now the default
 ENV SHELL=/bin/bash
 RUN pip install jupyter -U && pip install jupyterlab
 EXPOSE 8888
-ENTRYPOINT ["jupyter", "lab","--ip=0.0.0.0","--allow-root"]
+# ENTRYPOINT ["jupyter", "lab","--ip=0.0.0.0","--allow-root"]
